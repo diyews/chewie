@@ -186,6 +186,8 @@ class ChewieController extends ChangeNotifier {
     this.allowFullScreen = true,
     this.allowMuting = true,
     this.systemOverlaysAfterFullScreen = SystemUiOverlay.values,
+    this.qualityList,
+    this.onQualitySelected,
     this.deviceOrientationsAfterFullScreen = const [
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -268,6 +270,12 @@ class ChewieController extends ChangeNotifier {
 
   /// Defines a custom RoutePageBuilder for the fullscreen
   final ChewieRoutePageBuilder routePageBuilder;
+
+  /// Defines the quality list
+  final List<Map<String, dynamic>> qualityList;
+
+  /// Defines the quality tap callback
+  final void Function(dynamic value) onQualitySelected;
 
   static ChewieController of(BuildContext context) {
     final chewieControllerProvider =

@@ -116,6 +116,9 @@ class _MaterialControlsState extends State<MaterialControls> {
                 ? Expanded(child: const Text('LIVE'))
                 : _buildPosition(iconColor),
             chewieController.isLive ? const SizedBox() : _buildProgressBar(),
+            chewieController.qualityList != null
+                ? _buildQuality(controller)
+                : Container(),
             chewieController.allowMuting
                 ? _buildMuteButton(controller)
                 : Container(),
@@ -190,6 +193,28 @@ class _MaterialControlsState extends State<MaterialControls> {
           ),
         ),
       ),
+    );
+  }
+
+  PopupMenuButton _buildQuality(
+    VideoPlayerController controller,
+  ) {
+    return PopupMenuButton<dynamic>(
+      child: Text('Quality'),
+      itemBuilder: (context) {
+        List<PopupMenuEntry<dynamic>> list = [];
+        for (int i = 0; i < chewieController.qualityList.length; i++) {
+          final _item = chewieController.qualityList[i];
+          list.add(PopupMenuItem<dynamic>(
+            child: Text(_item['text'] as String),
+            value: _item['value'],
+          ));
+        }
+        return list;
+      },
+      onSelected: (dynamic val) {
+        chewieController.onQualitySelected(val);
+      },
     );
   }
 
