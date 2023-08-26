@@ -123,7 +123,7 @@ class ChewieState extends State<Chewie> {
   Future<dynamic> _pushFullScreenWidget(BuildContext context) async {
     final isAndroid = Theme.of(context).platform == TargetPlatform.android;
     final TransitionRoute<Null> route = PageRouteBuilder<Null>(
-      settings: RouteSettings(isInitialRoute: false),
+      settings: RouteSettings(),
       pageBuilder: _fullScreenRoutePageBuilder,
     );
 
@@ -144,7 +144,9 @@ class ChewieState extends State<Chewie> {
     widget.controller.exitFullScreen();
 
     bool isKeptOn = await Screen.isKeptOn;
-    if (isKeptOn) {
+    // 当allowedScreenSleep是 true 的时候不处理，只有false 才走这个逻辑
+    // 因为有些APP 已经加了keep on ，如果关闭就冲突了
+    if (isKeptOn && !widget.controller.allowedScreenSleep) {
       Screen.keepOn(false);
     }
 
